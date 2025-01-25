@@ -1,0 +1,43 @@
+server:
+  port: 9292
+
+spring:
+  application:
+    name: notification-microservice
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      group-id: ${MAIL_VERIFICATION_GROUP}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+frontend:
+  base-url: ${FRONTEND_BASE_URL}
+  urls:
+    activate-account: ${FRONTEND_URLS_ACTIVATE_ACCOUNT}
+    report-account: ${FRONTEND_URLS_REPORT_ACCOUNT}
+
+app:
+  logo-url: ${APP.LOGO_URL}
+
+kafka:
+  topics:
+    email-verification: ${KAFKA_TOPICS_EMAIL_VERIFICATION}
+
+gateway:
+  custom-headers:
+    user-id: ${GATEWAY_HEADERS_USER_ID}
