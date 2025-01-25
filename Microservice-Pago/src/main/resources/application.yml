@@ -1,0 +1,44 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: msvc-order
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO}
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    group-id: ${PRODUCT_RESERVATION_GROUP}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+gateway:
+  url: ${GATEWAY_URL}
+  custom-headers:
+    user-id: ${GATEWAY_HEADERS_USER_ID}
+
+
+kafka:
+  topics:
+    reservation-created: ${KAFKA_TOPICS_RESERVATION_CREATED}
+    reservation-confirmed: ${KAFKA_TOPICS_RESERVATION_CONFIRMED}
+    reservation-canceled: ${KAFKA_TOPICS_RESERVATION_CANCELED}
+    reservation-extended: ${KAFKA_TOPICS_RESERVATION_EXTENDED}
+
+mercado_pago:
+  access_token: ${MERCADO_PAGO_ACCESS_TOKEN}
+
+redis:
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}
+  username: ${REDIS_USERNAME}
+  password: ${REDIS_PASSWORD}
