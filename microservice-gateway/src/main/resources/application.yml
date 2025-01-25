@@ -1,0 +1,75 @@
+server:
+  port: 8080
+
+gateway:
+  custom-headers:
+    user-id: ${GATEWAY_HEADERS_USER_ID}
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+
+spring:
+  application:
+    name: msvc-gateway
+  cloud:
+    gateway:
+      global cors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: ${ALLOWED_ORIGINS}
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: msvc-auth
+          uri: ${MSVC_AUTH_URI}
+          predicates:
+            - Path=/api/auth/** , /api/tokens/**
+
+        - id: msvc-user
+          uri: ${MSVC_AUTH_URI}
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - AuthenticationFilter
+
+        - id: notification-microservice
+          uri: ${NOTIFICATION_MS_URI}
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - AuthenticationFilter
+
+        - id: msvc-product
+          uri: ${MSVC_PRODUCT_URI}
+          predicates:
+            - Path=/api/products/** , /api/categories/**
+
+        - id: msvc-cart
+          uri: ${MSVC_CART_URI}
+          predicates:
+            - Path=/api/carts/**
+          filters:
+            - AuthenticationFilter
+
+        - id: msvc-order
+          uri: ${MSVC_ORDER_URI}
+          predicates:
+            - Path=/api/orders/**, /api/shipments/**
+          filters:
+            - AuthenticationFilter
+
+        - id: msvc-inventory
+          uri: ${MSVC_INVENTORY_URI}
+          predicates:
+            - Path=/api/inventories/**
