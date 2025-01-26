@@ -1,0 +1,29 @@
+server:
+  port: 8060
+  address: 0.0.0.0
+
+spring:
+  application:
+    name: msvc-product
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO}
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+gateway:
+  custom-headers:
+    user-id: ${GATEWAY_HEADERS_USER_ID}
+
+
+redis:
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}
+  username: ${REDIS_USERNAME}
+  password: ${REDIS_PASSWORD}
+
